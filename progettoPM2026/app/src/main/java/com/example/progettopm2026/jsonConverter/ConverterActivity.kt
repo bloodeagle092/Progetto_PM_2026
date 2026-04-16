@@ -1,18 +1,13 @@
-package com.example.progettopm2026
+package com.example.progettopm2026.jsonConverter
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.progettopm2026.databinding.ActivityMainBinding
-import com.example.progettopm2026.jsonConverter.ConverterActivity
-import com.example.progettopm2026.llmSearch.SearchActivity
+import com.example.progettopm2026.R
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-
+class ConverterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -21,14 +16,6 @@ class MainActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
-        }
-        binding.creatorButton.setOnClickListener {
-            val intent = Intent(this, ConverterActivity::class.java)
-            startActivity(intent)
-        }
-        binding.searchButton.setOnClickListener {
-            val intent = Intent(this, SearchActivity::class.java)
-            startActivity(intent)
         }
     }
 }

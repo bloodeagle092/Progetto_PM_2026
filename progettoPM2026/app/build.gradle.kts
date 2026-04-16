@@ -35,6 +35,10 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
 }
 
 dependencies {
@@ -46,4 +50,14 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    // OCR (on-device, free)
+    implementation("com.google.mlkit:text-recognition:16.0.0")
+    // PDF text extraction
+    implementation("com.tom-roush:pdfbox-android:2.0.27.0")
+    // HTML parsing for URLs
+    implementation("org.jsoup:jsoup:1.22.1")
+    // JSON serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
+    // HTTP client for LLM API
+    implementation("com.squareup.okhttp3:okhttp:5.3.2")
 }
