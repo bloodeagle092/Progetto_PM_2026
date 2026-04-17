@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/converter_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Menu → JSON converter"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:paddingBottom="16dp" />
+
+        <!-- Source selection buttons -->
+        <Button
+            android:id="@+id/buttonPickImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pick image (JPG/PNG)" />
+
+        <Button
+            android:id="@+id/buttonPickPdf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pick PDF" />
+
+        <Button
+            android:id="@+id/buttonPickText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pick text file" />
+
+        <!-- URL input row -->
+        <EditText
+            android:id="@+id/editTextUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="https://restaurant.com/menu"
+            android:inputType="textUri" />
+
+        <Button
+            android:id="@+id/buttonLoadUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Load from URL" />
+
+        <!-- Progress indicator, shown during the LLM call -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:visibility="gone" />
+
+        <!-- Pretty-printed JSON result -->
+        <TextView
+            android:id="@+id/textViewResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="monospace"
+            android:textIsSelectable="true"
+            android:visibility="gone" />
+
+        <!-- Error display -->
+        <TextView
+            android:id="@+id/textViewError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="#B00020"
+            android:visibility="gone" />
+
+    </LinearLayout>
+</ScrollView>
