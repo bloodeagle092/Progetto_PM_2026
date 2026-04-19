@@ -14,7 +14,11 @@ object DatabaseProvider {
                 context.applicationContext,
                 AppDatabase::class.java,
                 "menu_converter.db"
-            ).build().also { INSTANCE = it }
+            )
+                //dev mode(per la version finale, non integro questa riga sotto, in quanto va azzerare i dati nel database ogni volta
+                // che la struttura del database viene aggiornata)
+                .fallbackToDestructiveMigration(true)
+                .build().also { INSTANCE = it }
         }
     }
 }
