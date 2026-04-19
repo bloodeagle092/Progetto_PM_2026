@@ -13,10 +13,11 @@ data class Menu(
 data class Dish(
     val name: String,
     val description: String? = null,
-    val price: Double? = null,
+    val prices: List<Double>? = emptyList(),
     val ingredients: List<String> = emptyList(),
     val category: String? = null,
-    val allergens: List<String> = emptyList()
+    val allergens: List<String> = emptyList(),
+    val notes: String? = null
 )
 
 sealed class MenuSource {

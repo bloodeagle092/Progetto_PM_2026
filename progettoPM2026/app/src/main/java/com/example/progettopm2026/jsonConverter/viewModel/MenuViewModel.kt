@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.progettopm2026.jsonConverter.data.Menu
 import com.example.progettopm2026.jsonConverter.data.MenuSource
 import com.example.progettopm2026.jsonConverter.model.MenuConverter
+import com.example.progettopm2026.jsonConverter.repository.MenuRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +18,10 @@ sealed class MenuUiState {
     data class Error(val message: String) : MenuUiState()
 }
 
-class MenuViewModel(private val converter: MenuConverter) : ViewModel() {
+class MenuViewModel(
+    private val converter: MenuConverter,
+    private val repository: MenuRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow<MenuUiState>(MenuUiState.Idle)
     val uiState: StateFlow<MenuUiState> = _uiState.asStateFlow()
@@ -25,8 +29,10 @@ class MenuViewModel(private val converter: MenuConverter) : ViewModel() {
     fun loadMenu(source: MenuSource) {
         viewModelScope.launch {
             _uiState.value = MenuUiState.Loading
+
             converter.convert(source)
                 .onSuccess { menu ->
+                    repository.saveMenu(menu, source)
                     _uiState.value = MenuUiState.Success(menu)
                 }
                 .onFailure { throwable ->
@@ -37,7 +43,6 @@ class MenuViewModel(private val converter: MenuConverter) : ViewModel() {
         }
     }
 
-    /** Resets state, e.g. when the user dismisses an error or starts over. */
     fun reset() {
         _uiState.value = MenuUiState.Idle
     }

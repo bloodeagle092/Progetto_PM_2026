@@ -3,6 +3,8 @@ import java.io.FileInputStream
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 val localProperties = Properties().apply {
     val file = rootProject.file("local.properties")
@@ -21,8 +23,8 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        val apiKey = localProperties.getProperty("anthropic.api.key") ?: ""
-        buildConfigField("String", "ANTHROPIC_API_KEY", "\"$apiKey\"")
+        val openAiApiKey = localProperties.getProperty("openai.api.key") ?: ""
+        buildConfigField("String", "OPENAI_API_KEY", "\"$openAiApiKey\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -80,4 +82,9 @@ dependencies {
 
     // by viewModels() delegate in Activity
     implementation("androidx.activity:activity-ktx:1.9.3")
+
+    //Room database for JSON
+    implementation("androidx.room:room-runtime:2.7.2")
+    implementation("androidx.room:room-ktx:2.7.2")
+    ksp("androidx.room:room-compiler:2.7.2")
 }

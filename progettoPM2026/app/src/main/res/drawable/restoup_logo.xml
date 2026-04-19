@@ -1,0 +1,59 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+
+    <!-- Gold circle -->
+    <path
+        android:pathData="M256,88
+                          A132,132 0 1,1 255.9,88"
+        android:fillColor="@android:color/transparent"
+        android:strokeWidth="6"
+        android:strokeColor="#D4AF37" />
+
+    <!-- 3 gold lines -->
+    <path
+        android:pathData="M195,146 L195,166"
+        android:strokeColor="#F2D27A"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"/>
+
+    <path
+        android:pathData="M202,146 L202,166"
+        android:strokeColor="#F2D27A"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"/>
+
+    <path
+        android:pathData="M209,146 L209,166"
+        android:strokeColor="#F2D27A"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"/>
+
+    <!-- Letter R -->
+    <path
+        android:pathData="M205,305
+                          L205,170
+                          Q205,140 240,140
+                          L260,140
+                          Q298,140 298,180
+                          Q298,220 260,220
+                          L205,220
+                          M255,220
+                          L312,304"
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#F5F5F5"
+        android:strokeWidth="6"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"/>
+
+    <!-- Red dot -->
+    <path
+        android:pathData="M325,155
+                          m-9,0
+                          a9,9 0 1,0 18,0
+                          a9,9 0 1,0 -18,0"
+        android:fillColor="#FF6B35"/>
+
+</vector>

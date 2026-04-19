@@ -9,17 +9,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.*
 import com.example.progettopm2026.BuildConfig
 import com.example.progettopm2026.databinding.ActivityConverterBinding
 import com.example.progettopm2026.jsonConverter.data.MenuSource
-import com.example.progettopm2026.jsonConverter.model.MenuConverter
-import com.example.progettopm2026.jsonConverter.model.MenuExtractor
-import com.example.progettopm2026.jsonConverter.model.MenuLlmClient
+import com.example.progettopm2026.jsonConverter.db.DatabaseProvider
+import com.example.progettopm2026.jsonConverter.model.*
+import com.example.progettopm2026.jsonConverter.repository.MenuRepository
+import com.example.progettopm2026.jsonConverter.storage.MenuFileStore
 import com.example.progettopm2026.jsonConverter.viewModel.MenuUiState
 import com.example.progettopm2026.jsonConverter.viewModel.MenuViewModel
 import kotlinx.coroutines.launch
@@ -35,21 +32,35 @@ class ConverterActivity : AppCompatActivity() {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 val httpClient = OkHttpClient.Builder()
-                    // LLM calls take a few seconds; default 10s timeout is too short.
-                    .callTimeout(60, TimeUnit.SECONDS)
-                    .connectTimeout(15, TimeUnit.SECONDS)
-                    .readTimeout(60, TimeUnit.SECONDS)
+                    .callTimeout(360, TimeUnit.SECONDS)
+                    .connectTimeout(30, TimeUnit.SECONDS)
+                    .readTimeout(360, TimeUnit.SECONDS)
                     .build()
 
                 val llmClient = MenuLlmClient(
                     httpClient = httpClient,
-                    apiKey = BuildConfig.ANTHROPIC_API_KEY
+                    apiKey = BuildConfig.OPENAI_API_KEY
                 )
+
                 val extractor = MenuExtractor(applicationContext)
-                val converter = MenuConverter(extractor, llmClient)
+                val cleaner = MenuTextCleaner()
+                val postProcessor = MenuPostProcessor()
+
+                val converter = MenuConverter(
+                    extractor = extractor,
+                    textCleaner = cleaner,
+                    llmClient = llmClient,
+                    postProcessor = postProcessor
+                )
+
+                val db = DatabaseProvider.getDatabase(applicationContext)
+                val repository = MenuRepository(
+                    fileStore = MenuFileStore(applicationContext),
+                    dao = db.savedMenuDao()
+                )
 
                 @Suppress("UNCHECKED_CAST")
-                return MenuViewModel(converter) as T
+                return MenuViewModel(converter, repository) as T
             }
         }
     }
@@ -72,12 +83,12 @@ class ConverterActivity : AppCompatActivity() {
         uri?.let { viewModel.loadMenu(MenuSource.TextFile(it)) }
     }
 
-    // Pretty-printer for the output JSON view.
     private val prettyJson = Json { prettyPrint = true; ignoreUnknownKeys = true }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         binding = ActivityConverterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -92,9 +103,10 @@ class ConverterActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
+        binding.buttonBack.setOnClickListener { finish() }
         binding.buttonPickImage.setOnClickListener { pickImage.launch("image/*") }
-        binding.buttonPickPdf.setOnClickListener   { pickPdf.launch("application/pdf") }
-        binding.buttonPickText.setOnClickListener  { pickTextFile.launch("text/*") }
+        binding.buttonPickPdf.setOnClickListener { pickPdf.launch("application/pdf") }
+        binding.buttonPickText.setOnClickListener { pickTextFile.launch("text/*") }
 
         binding.buttonLoadUrl.setOnClickListener {
             val url = binding.editTextUrl.text.toString().trim()
@@ -117,15 +129,12 @@ class ConverterActivity : AppCompatActivity() {
     }
 
     private fun renderState(state: MenuUiState) {
-        // Reset visibility each time, then show only what this state needs.
         binding.progressBar.visibility = android.view.View.GONE
         binding.textViewResult.visibility = android.view.View.GONE
         binding.textViewError.visibility = android.view.View.GONE
 
         when (state) {
-            is MenuUiState.Idle -> {
-                // Nothing to show yet; buttons remain enabled.
-            }
+            is MenuUiState.Idle -> Unit
             is MenuUiState.Loading -> {
                 binding.progressBar.visibility = android.view.View.VISIBLE
             }
