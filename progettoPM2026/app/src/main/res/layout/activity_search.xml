@@ -20,7 +20,6 @@
         android:paddingEnd="12dp"
         android:paddingBottom="14dp">
 
-        <!-- Back / close button — identical style to your converter -->
         <ImageButton
             android:id="@+id/buttonBack"
             android:layout_width="44dp"
@@ -31,14 +30,13 @@
             android:src="@android:drawable/ic_media_previous"
             app:tint="#FFFFFF" />
 
-        <!-- Chat title / active model name, expands to fill remaining width -->
         <TextView
             android:id="@+id/textViewModelName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:text="Modello_che_utente_sta_usando"
+            android:text="LLM search"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -54,21 +52,11 @@
             app:tint="#D4AF37" />
     </LinearLayout>
 
-    <!-- Thin gold divider under the top bar — decorative, matches your accent color -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#080223" />
 
-    <!-- ══════════════════════════════════════════
-         MESSAGE LIST AREA
-         NestedScrollView with layout_weight="1" so it grows
-         to fill all available vertical space between the top
-         bar and the input bar — exactly like resultScrollArea
-         in your converter.
-         fillViewport="true" lets the inner LinearLayout
-         stretch even when there are few messages.
-    ══════════════════════════════════════════ -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/chatScrollView"
         android:layout_width="match_parent"
@@ -81,13 +69,6 @@
         android:paddingBottom="8dp"
         android:clipToPadding="false">
 
-        <!--
-            This inner LinearLayout is where you will add
-            message bubbles dynamically from Kotlin:
-                val bubble = layoutInflater.inflate(R.layout.item_message_user, chatContainer, false)
-                chatContainer.addView(bubble)
-            orientation="vertical" stacks messages top-to-bottom.
-        -->
         <LinearLayout
             android:id="@+id/chatContainer"
             android:layout_width="match_parent"
@@ -98,11 +79,6 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <!-- ══════════════════════════════════════════
-         ERROR BANNER (hidden by default)
-         Appears above the input bar when an API call fails.
-         Same style as textViewError in your converter.
-    ══════════════════════════════════════════ -->
     <TextView
         android:id="@+id/textViewError"
         android:layout_width="match_parent"
@@ -136,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:hint="Message <insert the model here>"
+            android:hint="Message insert the model here"
             android:inputType="textMultiLine|textCapSentences"
             android:maxLines="5"
             android:minLines="1"
