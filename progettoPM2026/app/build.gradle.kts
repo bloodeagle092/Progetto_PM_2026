@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
+    id("kotlin-kapt")
+    alias(libs.plugins.objectbox)
 }
 val localProperties = Properties().apply {
     val file = rootProject.file("local.properties")
@@ -86,5 +88,9 @@ dependencies {
     //Room database for JSON
     implementation("androidx.room:room-runtime:2.7.2")
     implementation("androidx.room:room-ktx:2.7.2")
+
+    implementation("io.objectbox:objectbox-android:5.4.1")
+    implementation("io.objectbox:objectbox-kotlin:5.4.1")
+
     ksp("androidx.room:room-compiler:2.7.2")
 }
