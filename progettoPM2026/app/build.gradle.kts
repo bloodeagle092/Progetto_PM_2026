@@ -89,6 +89,9 @@ dependencies {
     implementation("androidx.room:room-runtime:2.7.2")
     implementation("androidx.room:room-ktx:2.7.2")
 
+    // ONNX Runtime for on-device embeddings
+    implementation("com.microsoft.onnxruntime:onnxruntime-android:1.18.0")
+
     implementation("io.objectbox:objectbox-android:5.4.1")
     implementation("io.objectbox:objectbox-kotlin:5.4.1")
 

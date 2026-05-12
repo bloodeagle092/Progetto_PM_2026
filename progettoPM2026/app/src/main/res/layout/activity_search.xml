@@ -57,6 +57,36 @@
         android:layout_height="1dp"
         android:background="#080223" />
 
+    <TextView
+        android:id="@+id/textViewDebug"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="12dp"
+        android:background="#151530"
+        android:fontFamily="monospace"
+        android:padding="12dp"
+        android:textColor="#B8C0FF"
+        android:textSize="12sp"
+        android:text="Debug: loading..." />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonClearIndex"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="12dp"
+        android:text="Clear indexed items"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#6C2B2B"
+        app:cornerRadius="14dp"
+        app:icon="@android:drawable/ic_menu_delete"
+        app:iconGravity="textStart"
+        app:iconTint="#FFFFFF" />
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/chatScrollView"
         android:layout_width="match_parent"

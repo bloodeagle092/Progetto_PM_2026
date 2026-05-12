@@ -5,10 +5,12 @@ import com.example.progettopm2026.jsonConverter.data.MenuSource
 import com.example.progettopm2026.jsonConverter.db.SavedMenuDao
 import com.example.progettopm2026.jsonConverter.db.SavedMenuEntity
 import com.example.progettopm2026.jsonConverter.storage.MenuFileStore
+import com.example.progettopm2026.llmSearch.indexing.MenuSearchIndexer
 
 class MenuRepository(
     private val fileStore: MenuFileStore,
-    private val dao: SavedMenuDao
+    private val dao: SavedMenuDao,
+    private val searchIndexer: MenuSearchIndexer? = null
 ) {
 
     suspend fun saveMenu(menu: Menu, source: MenuSource) {
@@ -26,6 +28,10 @@ class MenuRepository(
         )
 
         dao.insert(entity)
+
+        runCatching {
+            searchIndexer?.index(menu, savedFile.fileName)
+        }
     }
 
     private fun MenuSource.toReadableSourceValue(): String {

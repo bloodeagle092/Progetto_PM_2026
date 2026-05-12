@@ -19,6 +19,9 @@ import com.example.progettopm2026.jsonConverter.repository.MenuRepository
 import com.example.progettopm2026.jsonConverter.storage.MenuFileStore
 import com.example.progettopm2026.jsonConverter.viewModel.MenuUiState
 import com.example.progettopm2026.jsonConverter.viewModel.MenuViewModel
+import com.example.progettopm2026.llmSearch.database.MenuEmbeddingStore
+import com.example.progettopm2026.llmSearch.embedding.SearchEmbeddingProvider
+import com.example.progettopm2026.llmSearch.indexing.MenuSearchIndexer
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
@@ -54,9 +57,15 @@ class ConverterActivity : AppCompatActivity() {
                 )
 
                 val db = DatabaseProvider.getDatabase(applicationContext)
+                val runtime = SearchEmbeddingProvider.get(applicationContext)
+                val searchIndexer = MenuSearchIndexer(
+                    embedder = runtime.embedder,
+                    store = MenuEmbeddingStore(applicationContext)
+                )
                 val repository = MenuRepository(
                     fileStore = MenuFileStore(applicationContext),
-                    dao = db.savedMenuDao()
+                    dao = db.savedMenuDao(),
+                    searchIndexer = searchIndexer
                 )
 
                 @Suppress("UNCHECKED_CAST")
