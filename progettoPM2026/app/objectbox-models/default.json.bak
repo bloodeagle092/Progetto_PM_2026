@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:8642786839874964328",
-      "lastPropertyId": "5:4661855422717884084",
+      "lastPropertyId": "12:1472416829868495306",
       "name": "MenuEmbedding",
       "properties": [
         {
@@ -35,6 +35,41 @@
           "indexId": "1:1455484111196864091",
           "type": 28,
           "flags": 8
+        },
+        {
+          "id": "6:339242485790337626",
+          "name": "restaurantName",
+          "type": 9
+        },
+        {
+          "id": "7:2252419421700435418",
+          "name": "category",
+          "type": 9
+        },
+        {
+          "id": "8:4912781383938980794",
+          "name": "ingredients",
+          "type": 9
+        },
+        {
+          "id": "9:1817878109018955158",
+          "name": "notes",
+          "type": 9
+        },
+        {
+          "id": "10:2688557616254005477",
+          "name": "allergens",
+          "type": 9
+        },
+        {
+          "id": "11:161211750564680601",
+          "name": "prices",
+          "type": 9
+        },
+        {
+          "id": "12:1472416829868495306",
+          "name": "searchText",
+          "type": 9
         }
       ],
       "relations": []
