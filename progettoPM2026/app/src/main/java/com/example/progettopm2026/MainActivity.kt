@@ -20,9 +20,18 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val initialPaddingLeft = binding.root.paddingLeft
+        val initialPaddingTop = binding.root.paddingTop
+        val initialPaddingRight = binding.root.paddingRight
+        val initialPaddingBottom = binding.root.paddingBottom
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.setPadding(
+                initialPaddingLeft + systemBars.left,
+                initialPaddingTop + systemBars.top,
+                initialPaddingRight + systemBars.right,
+                initialPaddingBottom + systemBars.bottom
+            )
             insets
         }
         binding.creatorButton.setOnClickListener {

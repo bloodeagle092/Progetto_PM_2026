@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">progettoPM2026</string>
     <string name="progetto_pm_2026">PROGETTO PM 2026</string>
-    <string name="json_creator">Json creator</string>
+    <string name="brand_name_resto">Resto</string>
+    <string name="brand_name_up">UP</string>
+    <string name="brand_dot">•</string>
+    <string name="brand_tagline">CONVERT · STRUCTURE · SEARCH</string>
+    <string name="json_creator">JSON Creator</string>
     <string name="llm_search">LLM Search</string>
 </resources>

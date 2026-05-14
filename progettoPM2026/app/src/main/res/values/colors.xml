@@ -2,4 +2,17 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="restoup_background">#101010</color>
+    <color name="restoup_surface">#1A1A1A</color>
+    <color name="restoup_surface_high">#1E1E1E</color>
+    <color name="restoup_surface_alt">#262626</color>
+    <color name="restoup_gold">#D4AF37</color>
+    <color name="restoup_accent_orange">#FF6B35</color>
+    <color name="restoup_text_primary">#FFFFFF</color>
+    <color name="restoup_text_secondary">#CFCFCF</color>
+    <color name="restoup_text_muted">#A8A8A8</color>
+    <color name="restoup_text_on_gold">#101010</color>
+    <color name="restoup_error_bg">#2B1515</color>
+    <color name="restoup_error_text">#FF8A80</color>
+    <color name="restoup_danger">#6C2B2B</color>
 </resources>

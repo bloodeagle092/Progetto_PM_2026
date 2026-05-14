@@ -1,164 +1,254 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/converter_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#101010"
-    android:orientation="vertical"
+    android:background="@drawable/bg_restoup_screen"
     android:padding="20dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+    <ImageButton
+        android:id="@+id/buttonBack"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="@drawable/bg_restoup_chip"
+        android:contentDescription="Go back"
+        android:padding="10dp"
+        android:scaleType="center"
+        android:src="@drawable/ic_restoup_arrow_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/restoup_text_primary" />
 
-        <ImageButton
-            android:id="@+id/buttonBack"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Go back"
-            android:padding="8dp"
-            android:src="@android:drawable/ic_media_previous"
-            app:tint="#FFFFFF" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:text="Menu → JSON Converter"
-            android:textColor="#FFFFFF"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonOpenSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:contentDescription="@string/llm_search"
+        android:minWidth="0dp"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:text="@string/llm_search"
+        android:textAllCaps="false"
+        android:textColor="@color/restoup_text_on_gold"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:backgroundTint="@color/restoup_gold"
+        app:cornerRadius="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/buttonBack" />
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/textViewConverterTitle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Import a menu from image, PDF, text file or URL"
-        android:textColor="#CFCFCF"
-        android:textSize="14sp" />
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:gravity="center"
+        android:text="Menu to JSON"
+        android:textColor="@color/restoup_text_primary"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/buttonBack"
+        app:layout_constraintEnd_toStartOf="@id/buttonOpenSearch"
+        app:layout_constraintStart_toEndOf="@id/buttonBack"
+        app:layout_constraintTop_toTopOf="@id/buttonBack" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/sourceContainer"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="#1A1A1A"
+        android:layout_marginTop="44dp"
         android:orientation="vertical"
-        android:padding="18dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonBack"
+        app:layout_constraintVertical_bias="0.30"
+        app:layout_constraintWidth_max="360dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonPickImage"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="58dp"
             android:text="Pick image (JPG/PNG)"
             android:textAllCaps="false"
-            android:textColor="#101010"
-            app:backgroundTint="#D4AF37"
-            app:cornerRadius="16dp" />
+            android:textColor="@color/restoup_text_primary"
+            android:textSize="15sp"
+            app:backgroundTint="@color/restoup_surface_alt"
+            app:cornerRadius="18dp"
+            app:icon="@android:drawable/ic_menu_gallery"
+            app:iconGravity="textStart"
+            app:iconTint="@color/restoup_gold"
+            app:strokeColor="@color/restoup_gold"
+            app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonPickPdf"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="58dp"
             android:layout_marginTop="12dp"
             android:text="Pick PDF"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            app:backgroundTint="#262626"
-            app:cornerRadius="16dp"
-            app:strokeColor="#D4AF37"
+            android:textColor="@color/restoup_text_primary"
+            android:textSize="15sp"
+            app:backgroundTint="@color/restoup_surface_alt"
+            app:cornerRadius="18dp"
+            app:icon="@android:drawable/ic_menu_upload"
+            app:iconGravity="textStart"
+            app:iconTint="@color/restoup_gold"
+            app:strokeColor="@color/restoup_gold"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonPickText"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="58dp"
             android:layout_marginTop="12dp"
-            android:text="Pick text file"
+            android:text="Pick text"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            app:backgroundTint="#262626"
-            app:cornerRadius="16dp"
-            app:strokeColor="#D4AF37"
+            android:textColor="@color/restoup_text_primary"
+            android:textSize="15sp"
+            app:backgroundTint="@color/restoup_surface_alt"
+            app:cornerRadius="18dp"
+            app:icon="@android:drawable/ic_menu_edit"
+            app:iconGravity="textStart"
+            app:iconTint="@color/restoup_gold"
+            app:strokeColor="@color/restoup_gold"
             app:strokeWidth="1dp" />
 
-        <EditText
-            android:id="@+id/editTextUrl"
+        <LinearLayout
+            android:id="@+id/urlInputBar"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/bg_restoup_edit_text"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="6dp">
+
+            <EditText
+                android:id="@+id/editTextUrl"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="https://restaurant.com/menu"
+                android:inputType="textUri"
+                android:paddingEnd="10dp"
+                android:singleLine="true"
+                android:textColor="@color/restoup_text_primary"
+                android:textColorHint="@color/restoup_text_muted"
+                android:textSize="15sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonLoadUrl"
+                android:layout_width="84dp"
+                android:layout_height="46dp"
+                android:minWidth="0dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="Load"
+                android:textAllCaps="false"
+                android:textColor="@color/restoup_text_on_gold"
+                android:textSize="14sp"
+                app:backgroundTint="@color/restoup_gold"
+                app:cornerRadius="16dp"
+                app:icon="@android:drawable/ic_menu_upload"
+                app:iconGravity="textStart"
+                app:iconSize="18dp"
+                app:iconTint="@color/restoup_text_on_gold" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="22dp"
+            android:indeterminateTint="@color/restoup_gold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/textViewError"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
-            android:backgroundTint="#D4AF37"
-            android:hint="https://restaurant.com/menu"
-            android:inputType="textUri"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#A8A8A8" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonLoadUrl"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="12dp"
-            android:text="Load from URL"
-            android:textAllCaps="false"
-            android:textColor="#101010"
-            app:backgroundTint="#D4AF37"
-            app:cornerRadius="16dp" />
+            android:background="@drawable/bg_restoup_error"
+            android:padding="14dp"
+            android:textColor="@color/restoup_error_text"
+            android:visibility="gone" />
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="18dp"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/textViewResultLabel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="JSON Result"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/resultScrollArea"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/resultContainer"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1"
-        android:background="#181818"
-        android:fillViewport="true"
-        android:overScrollMode="ifContentScrolls"
-        android:padding="0dp">
+        android:layout_marginTop="28dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonBack">
 
-        <TextView
-            android:id="@+id/textViewResult"
+        <LinearLayout
+            android:id="@+id/resultHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="monospace"
-            android:padding="16dp"
-            android:textColor="#F5F5F5"
-            android:textIsSelectable="true"
-            android:visibility="gone" />
-    </androidx.core.widget.NestedScrollView>
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/textViewError"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="#2B1515"
-        android:padding="14dp"
-        android:textColor="#FF8A80"
-        android:visibility="gone" />
+            <TextView
+                android:id="@+id/textViewResultLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="JSON Result"
+                android:textColor="@color/restoup_text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-</LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonChangeSource"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:minWidth="0dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:text="New import"
+                android:textAllCaps="false"
+                android:textColor="@color/restoup_text_primary"
+                android:textSize="14sp"
+                app:backgroundTint="@color/restoup_surface_alt"
+                app:cornerRadius="16dp"
+                app:strokeColor="@color/restoup_gold"
+                app:strokeWidth="1dp" />
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/resultScrollArea"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_restoup_result"
+            android:fillViewport="true"
+            android:overScrollMode="ifContentScrolls">
+
+            <TextView
+                android:id="@+id/textViewResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:padding="16dp"
+                android:textColor="@color/restoup_text_primary"
+                android:textIsSelectable="true"
+                android:visibility="gone" />
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.example.progettopm2026.llmSearch
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.view.Gravity
@@ -10,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -17,6 +19,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.progettopm2026.databinding.ActivitySearchBinding
+import com.example.progettopm2026.jsonConverter.ConverterActivity
 import com.example.progettopm2026.llmSearch.database.MenuEmbeddingStore
 import com.example.progettopm2026.llmSearch.embedding.SearchEmbeddingProvider
 import com.example.progettopm2026.llmSearch.search.MenuSearchService
@@ -53,14 +56,28 @@ class SearchActivity : AppCompatActivity() {
         setContentView(binding.root)
         embeddingBackendLabel = SearchEmbeddingProvider.get(applicationContext).backendLabel
 
+        val initialPaddingLeft = binding.root.paddingLeft
+        val initialPaddingTop = binding.root.paddingTop
+        val initialPaddingRight = binding.root.paddingRight
+        val initialPaddingBottom = binding.root.paddingBottom
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.setPadding(
+                initialPaddingLeft + systemBars.left,
+                initialPaddingTop + systemBars.top,
+                initialPaddingRight + systemBars.right,
+                initialPaddingBottom + systemBars.bottom
+            )
             insets
         }
 
         setupClickListeners()
         observeUiState()
+        refreshDebugPanel()
+    }
+
+    override fun onResume() {
+        super.onResume()
         refreshDebugPanel()
     }
 
@@ -75,12 +92,17 @@ class SearchActivity : AppCompatActivity() {
             refreshDebugPanel()
         }
 
+        binding.buttonOpenConverter.setOnClickListener {
+            startActivity(Intent(this, ConverterActivity::class.java))
+            finish()
+        }
+
         binding.buttonSend.setOnClickListener {
             submitQuery()
         }
 
         binding.buttonClearIndex.setOnClickListener {
-            clearIndexedItems()
+            confirmClearIndexedItems()
         }
 
         binding.editTextMessage.setOnEditorActionListener { _, _, _ ->
@@ -136,15 +158,27 @@ class SearchActivity : AppCompatActivity() {
     private fun refreshDebugPanel() {
         lifecycleScope.launch {
             val indexedCount = runCatching { embeddingStore.count() }.getOrDefault(0L)
-            binding.textViewDebug.text = buildString {
-                appendLine("Debug mode")
-                appendLine("ObjectBox: active")
-                appendLine("Indexed items: $indexedCount")
-                appendLine("Embedder: $embeddingBackendLabel")
-                append("Last query: ")
-                append(if (lastQueryText.isBlank()) "none" else lastQueryText)
+            if (indexedCount > 0L) {
+                binding.textViewDebug.text = "$indexedCount saved items"
+                binding.buttonOpenConverter.visibility = View.GONE
+                binding.buttonClearIndex.visibility = View.VISIBLE
+            } else {
+                binding.textViewDebug.text = "No saved items"
+                binding.buttonOpenConverter.visibility = View.VISIBLE
+                binding.buttonClearIndex.visibility = View.GONE
             }
         }
+    }
+
+    private fun confirmClearIndexedItems() {
+        AlertDialog.Builder(this)
+            .setTitle("Delete saved items?")
+            .setMessage("This will remove all indexed menu items from search.")
+            .setNegativeButton("Cancel", null)
+            .setPositiveButton("Delete") { _, _ ->
+                clearIndexedItems()
+            }
+            .show()
     }
 
     private fun clearIndexedItems() {
@@ -193,14 +227,18 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun appendBubble(text: String, isUser: Boolean) {
+        val maxBubbleWidth = (resources.displayMetrics.widthPixels * 0.78f).toInt()
         val bubble = TextView(this).apply {
             this.text = text
             setTextColor(if (isUser) 0xFF101010.toInt() else 0xFFFFFFFF.toInt())
             textSize = 15f
-            setPadding(24, 18, 24, 18)
+            setLineSpacing(4f, 1f)
+            maxWidth = maxBubbleWidth
+            setPadding(28, 20, 28, 20)
             background = android.graphics.drawable.GradientDrawable().apply {
-                cornerRadius = 28f
-                setColor(if (isUser) 0xFFD4AF37.toInt() else 0xFF1E1E1E.toInt())
+                cornerRadius = 34f
+                setColor(if (isUser) 0xFFD4AF37.toInt() else 0xFF262626.toInt())
+                if (!isUser) setStroke(2, 0xFF343434.toInt())
             }
         }
 
@@ -208,14 +246,14 @@ class SearchActivity : AppCompatActivity() {
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         ).apply {
-            topMargin = 12
-            bottomMargin = 4
+            topMargin = 14
+            bottomMargin = 6
             if (isUser) {
                 gravity = Gravity.END
-                marginStart = 80
+                marginStart = 56
             } else {
                 gravity = Gravity.START
-                marginEnd = 80
+                marginEnd = 56
             }
         }
 

@@ -1,155 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/chat_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#080223"
-    android:orientation="vertical">
+    android:background="@drawable/bg_restoup_screen"
+    android:orientation="vertical"
+    android:padding="20dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/searchHeader"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#080223"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="12dp"
-        android:paddingTop="14dp"
-        android:paddingEnd="12dp"
-        android:paddingBottom="14dp">
+        android:layout_height="44dp">
 
         <ImageButton
             android:id="@+id/buttonBack"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="@drawable/bg_restoup_chip"
             android:contentDescription="Go back"
-            android:padding="8dp"
-            android:src="@android:drawable/ic_media_previous"
-            app:tint="#FFFFFF" />
+            android:padding="10dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_restoup_arrow_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/restoup_text_primary" />
 
         <TextView
             android:id="@+id/textViewModelName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:text="LLM search"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:gravity="center"
+            android:text="LLM Search"
+            android:textColor="@color/restoup_text_primary"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/buttonBack"
+            app:layout_constraintEnd_toStartOf="@id/buttonNewChat"
+            app:layout_constraintStart_toEndOf="@id/buttonBack"
+            app:layout_constraintTop_toTopOf="@id/buttonBack" />
 
         <ImageButton
             android:id="@+id/buttonNewChat"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="@drawable/bg_restoup_gold_panel"
             android:contentDescription="New chat"
-            android:padding="8dp"
-            android:src="@android:drawable/ic_input_add"
-            app:tint="#D4AF37" />
-    </LinearLayout>
+            android:padding="7dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_restoup_new_chat"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/restoup_text_on_gold" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#080223" />
-
-    <TextView
-        android:id="@+id/textViewDebug"
+    <LinearLayout
+        android:id="@+id/indexStatusPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="12dp"
-        android:background="#151530"
-        android:fontFamily="monospace"
-        android:padding="12dp"
-        android:textColor="#B8C0FF"
-        android:textSize="12sp"
-        android:text="Debug: loading..." />
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bg_restoup_soft_panel"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="12dp">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonClearIndex"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="12dp"
-        android:text="Clear indexed items"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        app:backgroundTint="#6C2B2B"
-        app:cornerRadius="14dp"
-        app:icon="@android:drawable/ic_menu_delete"
-        app:iconGravity="textStart"
-        app:iconTint="#FFFFFF" />
+        <TextView
+            android:id="@+id/textViewDebug"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Checking saved items..."
+            android:textColor="@color/restoup_text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonOpenConverter"
+            android:layout_width="wrap_content"
+            android:layout_height="54dp"
+            android:text="@string/json_creator"
+            android:textAllCaps="false"
+            android:textColor="@color/restoup_text_on_gold"
+            android:textSize="15sp"
+            android:visibility="gone"
+            app:backgroundTint="@color/restoup_gold"
+            app:cornerRadius="18dp"
+            app:icon="@android:drawable/ic_menu_upload"
+            app:iconGravity="textStart"
+            app:iconTint="@color/restoup_text_on_gold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonClearIndex"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="12dp"
+            android:contentDescription="Delete saved items"
+            android:minWidth="0dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:text=""
+            android:textAllCaps="false"
+            android:textColor="@color/restoup_text_primary"
+            android:visibility="gone"
+            app:backgroundTint="@color/restoup_danger"
+            app:cornerRadius="18dp"
+            app:icon="@android:drawable/ic_menu_delete"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="20dp"
+            app:iconTint="@color/restoup_text_primary" />
+    </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/chatScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:layout_weight="1"
-        android:background="#101010"
+        android:background="@drawable/bg_restoup_result"
+        android:clipToPadding="false"
         android:fillViewport="true"
         android:overScrollMode="ifContentScrolls"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:clipToPadding="false">
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp">
 
         <LinearLayout
             android:id="@+id/chatContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp" />
-
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp" />
     </androidx.core.widget.NestedScrollView>
 
     <TextView
         android:id="@+id/textViewError"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#2B1515"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_restoup_error"
         android:padding="12dp"
-        android:textColor="#080223"
+        android:textColor="@color/restoup_error_text"
         android:textSize="13sp"
         android:visibility="gone" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#2A2A2A" />
 
     <LinearLayout
         android:id="@+id/inputBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#1A1A1A"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_restoup_bottom_bar"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="12dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="10dp">
+        android:paddingStart="14dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="12dp">
 
         <EditText
             android:id="@+id/editTextMessage"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:hint="Message insert the model here"
+            android:background="@drawable/bg_restoup_edit_text"
+            android:hint="Search saved items"
             android:inputType="textMultiLine|textCapSentences"
             android:maxLines="5"
             android:minLines="1"
-            android:paddingStart="4dp"
-            android:paddingEnd="8dp"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#888888"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:textColor="@color/restoup_text_primary"
+            android:textColorHint="@color/restoup_text_muted"
             android:textSize="15sp" />
 
         <ProgressBar
@@ -157,29 +184,21 @@
             style="?android:attr/progressBarStyleSmall"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginEnd="8dp"
-            android:indeterminateTint="#D4AF37"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:indeterminateTint="@color/restoup_gold"
             android:visibility="gone" />
 
-        <com.google.android.material.button.MaterialButton
+        <ImageButton
             android:id="@+id/buttonSend"
-            android:layout_width="wrap_content"
+            android:layout_width="54dp"
             android:layout_height="48dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/bg_restoup_gold_panel"
             android:contentDescription="Send message"
-            android:minWidth="0dp"
-            android:paddingStart="14dp"
-            android:paddingEnd="14dp"
-            android:text="Send"
-            android:textAllCaps="false"
-            android:textColor="#101010"
-            android:textSize="14sp"
-            app:backgroundTint="#D4AF37"
-            app:cornerRadius="16dp"
-            app:icon="@android:drawable/ic_menu_send"
-            app:iconGravity="start"
-            app:iconSize="18dp"
-            app:iconTint="#101010" />
-
+            android:padding="12dp"
+            android:src="@drawable/ic_restoup_send"
+            app:tint="@color/restoup_text_on_gold" />
     </LinearLayout>
 
 </LinearLayout>

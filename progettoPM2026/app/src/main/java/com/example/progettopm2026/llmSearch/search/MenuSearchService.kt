@@ -8,7 +8,7 @@ class MenuSearchService(
     private val store: MenuEmbeddingStore
 ) {
 
-    suspend fun search(query: String, limit: Int = 3, minScore: Double = 0.65): List<SearchResult> {
+    suspend fun search(query: String, limit: Int = 5, minScore: Double = 0.65): List<SearchResult> {
         val cleaned = query.trim()
         if (cleaned.isBlank()) return emptyList()
 
